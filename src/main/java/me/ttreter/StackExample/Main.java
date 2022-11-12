@@ -6,15 +6,16 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
+
+    // Cria duas pilhas com 10 de tamanho.
+    static Stack PILHA = new Stack(10);
+    static Stack PILHA_2 = new Stack(10);
+
+    static Scanner in = new Scanner(System.in);
+
     public static void main(String[] args) {
 
-        // Cria duas pilhas com 10 de tamanho.
-        Stack PILHA = new Stack(10);
-        Stack PILHA_2 = new Stack(10);
-
         int ESCOLHA = -1;
-
-        Scanner in = new Scanner(System.in);
 
         while (ESCOLHA != 0) {
 
@@ -29,6 +30,8 @@ public class Main {
                                 5 • Transferir os dados para uma Pilha Auxiliar.
                                 6 • Listar os dados da Pilha Auxiliar.
                                 7 • Esvaziar a Pilha Auxiliar.
+                                8 • Adicionar 10 números separados em 2 Pilhas por pares e ímpares.
+                                9 • Mostrar dados atuais das 2 Pilhas.
                                 0 • Sair do programa."""
             );
 
@@ -82,7 +85,69 @@ public class Main {
                 }
             }
 
+            if (ESCOLHA == 8) {
+                pilhaParEImpar();
+            }
+
+            if (ESCOLHA == 9) {
+                // Cria dois vetores de objetos de 10 posições.
+                Object[] arrP1 = new Object[10];
+                Object[] arrP2 = new Object[10];
+                // Armazena somente os dados presentes na Pilha dos pares.
+                for (int i = 0; i <= PILHA.getSize(); i++) {
+                    arrP1[i] = PILHA.get()[i];
+                }
+                // Armazena somente os dados presentes na Pilha dos ímpares.
+                for (int i = 0; i <= PILHA_2.getSize(); i++) {
+                    arrP2[i] = PILHA_2.get()[i];
+                }
+                // Mostra os valores que de fato estão presentes nas Pilhas.
+                System.out.println("Pilha A: " + Arrays.toString(arrP1));
+                System.out.println("Pilha B: " + Arrays.toString(arrP2));
+            }
+
         }
 
     }
+
+    public static void pilhaParEImpar() {
+
+        // Solicita até 10 valores ao utilizador.
+        for (int i = 0; i <= 9; i++) {
+
+            System.out.print("Digite o " + (i + 1) + "º número: ");
+            int valor = in.nextInt();
+
+            // Se o valor for igual a zero.
+            if (valor == 0) {
+                // Se uma das pilhas está vazia não é possível remover dados.
+                if (PILHA.isEmpty() || PILHA_2.isEmpty()) {
+                    System.out.println("Uma das pilhas está vazia!");
+                    return;
+                } else {
+                    // Remove dados da pilha se nenhuma das duas está vazia.
+                    try {
+                        PILHA.pop();
+                        PILHA_2.pop();
+                    } catch (Exception e) {
+                        System.out.println("Uma das pilhas está vazia!");
+                        return;
+                    }
+
+                }
+            } else {
+                // Se o mod retornar zero, o valor é par, se retornar qualquer coisa além de zero, é ímpar.
+                if (valor % 2 == 0) {
+                    // Adciona um dado na pilha dos números pares.
+                    PILHA.push(valor);
+                } else {
+                    // Adciona um dado na pilha dos números ímpares.
+                    PILHA_2.push(valor);
+                }
+            }
+
+        }
+
+    }
+
 }
